@@ -7,7 +7,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "google-cloud/language":"~6.4.0"
+    "@google-cloud/language": "latest"
   },
   "engines": {
     "node": "~8.0.0"
@@ -23,7 +23,6 @@
     "Chatbot"
   ],
   "author": "Alexandre ERARD",
-  "contributors": [
-  ],
+  "contributors": [],
   "license": ""
 }
