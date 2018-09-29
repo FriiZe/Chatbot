@@ -1,0 +1,29 @@
+{
+  "name": "demo_CNL",
+  "version": "0.1.0",
+  "description": "Demo with the google API Cloud Natural Language",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "google-cloud/language":"~6.4.0"
+  },
+  "engines": {
+    "node": "~8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Meplos/Chatbot"
+  },
+  "keywords": [
+    "node",
+    "google",
+    "API",
+    "Chatbot"
+  ],
+  "author": "Alexandre ERARD",
+  "contributors": [
+  ],
+  "license": ""
+}
