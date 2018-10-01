@@ -27,7 +27,7 @@ io.sockets.on('connection', function (socket, nickname) {
     socket.on('message', function (message) {
         message = ent.encode(message);
         syntax_text(message);
-        socket.emit('message', {pseudo: 'chatbot', message: 'J\'ai bien reçus ton message'});
+        socket.emit('message', {nickname: 'chatbot', message: 'J\'ai bien reçus ton message'});
         //socket.broadcast.emit('message', {nickname: socket.nickname, message: message});
     });
 });
@@ -40,6 +40,8 @@ function syntax_text(text){
         content: text,
         type: 'PLAIN_TEXT',
     };
+
+    console.log("Message: "+text);
 
     // Detects syntax in the document
     client.analyzeSyntax({document: document}).then(results => {
