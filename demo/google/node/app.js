@@ -25,21 +25,23 @@ io.sockets.on('connection', function (socket, nickname) {
 
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
     socket.on('message', function (message) {
-        message = ent.encode(message);
+        //  message = ent.encode(message);
+        console.log(message);
         syntax_text(message);
-        socket.emit('message', {nickname: 'chatbot', message: 'J\'ai bien reçus ton message'});
-        //socket.broadcast.emit('message', {nickname: socket.nickname, message: message});
+        socket.emit('message',{pseudo: 'chatbot', message: 'J\'ai bien reçus ton message'});
+        //socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
     });
 });
 
 server.listen(8080);
 
 function syntax_text(text){
-    // Prepares a document, representing the provided text
-    const document = {
-        content: text,
-        type: 'PLAIN_TEXT',
-    };
+ // Prepares a document, representing the provided text
+ const document = {
+   content: text,
+   type: 'PLAIN_TEXT',
+   language: 'fr'
+ };
 
     console.log("Message: "+text);
 
