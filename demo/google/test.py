@@ -70,6 +70,6 @@ syntax_text("Bonjour, ceci est un test.")
 print("************* Entity detection demo")
 entities_text("Bonjour, je veux aller a Paris") # doesn't support accents (?)
 
-# Entity sentiment detection demo
+# Entity sentiment detection demo (doesn't work in french)
 print("************* Entity sentiment detection demo")
-entities_text("Bonjour, je voudrais aller a Paris s'il vous plait!")
+#entity_sentiment_text("Bonjour, je voudrais aller a Paris s'il vous plait!")
