@@ -61,6 +61,7 @@
             // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
             $('#chat_form').submit(function () {
                 var message = $('#message').val();
+                if (message == "") return false;
                 socket.emit('message', message); // Transmet le message aux autres
                 insertMessage(nickname, message); // Affiche le message aussi sur notre page
                 $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
