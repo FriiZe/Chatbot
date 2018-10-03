@@ -15,19 +15,11 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-io.sockets.on('connection', function (socket, nickname) {
-    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
-    socket.on('new_client', function(nickname) {
-        nickname = ent.encode(nickname);
-        socket.nickname = nickname;
-        socket.broadcast.emit('new_client', nickname);
-    });
-
+io.sockets.on('connection', function (socket) {
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
     socket.on('message', function (message) {
         syntax_text(message);
-        socket.emit('message', {nickname: 'chatbot', message: 'J\'ai bien reçus ton message'});
-        //socket.broadcast.emit('message', {nickname: socket.nickname, message: message});
+        socket.emit('message', {nickname: 'Chatbot', message: 'J\'ai bien reçus ton message'});
     });
 });
 
