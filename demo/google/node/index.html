@@ -43,26 +43,17 @@
             // Connexion à socket.io
             var socket = io.connect('http://localhost:8080');
 
-            // On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
-            var nickname = prompt('Quel est votre pseudo ?');
-            socket.emit('new_client', nickname);
-            document.title = nickname + ' - ' + document.title;
-
             // Quand on reçoit un message, on l'insère dans la page
             socket.on('message', function(data) {
                 insertMessage(data.nickname, data.message)
             })
 
-            // Quand un nouveau client se connecte, on affiche l'information
-            socket.on('new_client', function(nickname) {
-                $('#zone_chat').prepend('<p><em>' + nickname + ' a rejoint le Chat !</em></p>');
-            })
-
             // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
             $('#chat_form').submit(function () {
                 var message = $('#message').val();
-                socket.emit('message', message); // Transmet le message aux autres
-                insertMessage(nickname, message); // Affiche le message aussi sur notre page
+                if (message == "") return false;
+                socket.emit('message', message); // Transmet le message au serveur
+                insertMessage("You", message); // Affiche le message aussi sur notre page
                 $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
                 return false; // Permet de bloquer l'envoi "classique" du formulaire
             });
