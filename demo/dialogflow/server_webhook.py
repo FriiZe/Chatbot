@@ -5,7 +5,6 @@ from flask import request
 from flask import make_response
 from flask import jsonify
 
-
 course_urls = {
     u"Mathématiques":u"https://www.u-bordeaux.fr/formation/2018/PRLIMA_110/mathematiques", 
     u"Chimie":u"https://www.u-bordeaux.fr/formation/2018/PRLICH_110/chimie",
@@ -26,13 +25,16 @@ def webhook():
         param = query_result.get("parameters")
         language_code = query_result.get("languageCode")
 
-        if action == u"demander_filiere" and language_code == u"fr":
-            if param[u"filiere"] in course_urls:
-                res = course_urls[param[u"filiere"]]
+        print("Action: {}".format(action))
+        print("Params: {}".format(param))
+        print("Language code: {}".format(language_code))
+        
+        if action == u"demander_filiere":
+            course = param[u"filiere"]
+            if course in course_urls:
+                res = (u"Ok, voici la page de la filière {} : ".format(course)) + course_urls[course]
             else:
                 res = u"Je ne connais pas cette filière !"
-
-        print(req)
     except AttributeError:
         return 'json error'
     return make_response(jsonify({"fulfillmentText":res}))
