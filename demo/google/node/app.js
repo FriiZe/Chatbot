@@ -4,10 +4,8 @@ var app = require('express')(),
     ent = require('ent'), // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
     fs = require('fs');
 
-// Imports the Google Cloud client library
 const language = require('@google-cloud/language');
 
-// Creates a client
 const client = new language.LanguageServiceClient();
 
 // Chargement de la page index.html

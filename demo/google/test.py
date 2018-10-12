@@ -64,7 +64,7 @@ sentiment_text("Salut! Est-ce que tout va bien ?")
 
 # Syntax demo
 print("************* Syntax demo")
-syntax_text("Bonjour, ceci est un test.")
+syntax_text("Bonjour, je veux aller a Paris")
 
 # Entity detection demo
 print("************* Entity detection demo")
