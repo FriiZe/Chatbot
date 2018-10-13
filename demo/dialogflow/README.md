@@ -1,11 +1,11 @@
-Dépdendances :
-    - Flask : pip install flask
+# Dépendances :
 
-Avec Flask :
-    Il faut faire une var env FLASK_APP=name.py
+- Flask : ```pip install flask```
 
-    Pour lancer :
-    python -m flask run 
+# Lancer le serveur :
+Créer une variable d'environnement ```FLASK_APP=path_to_folder/server_webhook.py```
 
+Puis :
+```python -m flask run``` 
 
-Pour rendre le serveur visible depuis l'ext : ngrok
+Pour rendre le serveur visible depuis l'extérieur, utiliser [ngrok](https://ngrok.com/) 
