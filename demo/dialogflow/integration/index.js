@@ -69,10 +69,11 @@ async function parseResponse(answer) {
         );
     });
     currentContexts = result.outputContexts;
+    console.log("#contexts: ", currentContexts);
 
     // log the bot response 
     var intentName = result.intent ? result.intent.displayName : "no intent matched"; 
-    console.log(result.fulfillmentText, '(', intentName, ')');
+    console.log(result.fulfillmentText, '( intent:', intentName, ', confidence: ', result.intentDetectionConfidence ,')');
     
     // read the next user input
     readResponse();        
