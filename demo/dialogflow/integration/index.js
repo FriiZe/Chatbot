@@ -1,6 +1,6 @@
 /**
  * Quick TODO:
- *      - Handle promise (sessionClient.detectIntent)
+ *      - Handle promise (sessionClient.detectIntent) v
  *      - Use socket.io instead of the command line
  */
 
@@ -14,6 +14,8 @@ const projectId = 'test-cdda6';
 const languageCode = 'fr-FR';
 const sessionId = uuid.v4();
 const sessionClient = new dialogflow.SessionsClient();
+console.log(sessionClient);
+
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
 // where to read and write for the user input/bot response
@@ -40,7 +42,7 @@ function readResponse() {
  * @param {string} The sentence of the user
  */
 async function parseResponse(answer) {
-    // create the request 
+    // create the request
     const request = {
         session: sessionPath,
         queryInput: {
@@ -54,8 +56,12 @@ async function parseResponse(answer) {
         },
     };
 
-    // send the request 
-    const responses = await sessionClient.detectIntent(request);
+    // send the request
+    const responses = await sessionClient.detectIntent(request).catch(
+      (error) => {
+        console.log(error);
+      }
+    );
     const result = responses[0].queryResult;
 
     // Update the current context with the output context
@@ -71,12 +77,12 @@ async function parseResponse(answer) {
     currentContexts = result.outputContexts;
     console.log("#contexts: ", currentContexts);
 
-    // log the bot response 
-    var intentName = result.intent ? result.intent.displayName : "no intent matched"; 
+    // log the bot response
+    var intentName = result.intent ? result.intent.displayName : "no intent matched";
     console.log(result.fulfillmentText, '( intent:', intentName, ', confidence: ', result.intentDetectionConfidence ,')');
-    
+
     // read the next user input
-    readResponse();        
+    readResponse();
 }
 
 readResponse();
