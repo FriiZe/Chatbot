@@ -47,7 +47,7 @@
 
               // Quand on reçoit un message, on l'insère dans la page
               socket.on('message', function(data) {
-                  insertMessage(data.nickname, data.message)
+                  insertMessage(data.nickname, data.message,data.intention,data.score);
               })
 
               // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
@@ -55,14 +55,25 @@
                   var message = $('#message').val();
                   if (message == "") return false;
                   socket.emit('message', message); // Transmet le message au serveur
-                  insertMessage("You", message); // Affiche le message aussi sur notre page
+                  userMessage("You", message); // Affiche le message aussi sur notre page
                   $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
                   return false; // Permet de bloquer l'envoi "classique" du formulaire
               });
 
               // Ajoute un message dans la page
-              function insertMessage(nickname, message) {
-                  $('#zone_chat').prepend('<p><span class="badge badge-secondary">'+nickname+'</span> ' + message + '</p>');
+              function insertMessage(nickname, message,intention,score) {
+                  if(score*100 > 70 ){
+                    $('#zone_chat').prepend('<div class="card text-white bg-success">');
+                  }else if(score*100 > 50 && score*100 < 70){
+                    $('#zone_chat').prepend('<div class="card text-white bg-warning">');
+                  }else{
+                    $('#zone_chat').prepend('<div class="card text-white bg-danger">');
+                  }
+                  $('#zone_chat').prepend('<div class="card-header"><span class="badge badge-secondary">'+nickname+'</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
+              }
+
+              function userMessage(nickname,message){
+                $('#zone_chat').prepend('<div class="card"><div class="card-header"><span class="badge badge-secondary">'+nickname+'</span> ' + message + '</div></div>')
               }
           </script>
       </body>

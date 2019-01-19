@@ -84,7 +84,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('message', function (message) {
         parseResponse(message).then(
           ()=>{
-            socket.emit('message', {nickname: 'Chatbot', message: result.fulfillmentText});
+            socket.emit('message', {nickname: 'Chatbot', message: result.fulfillmentText, intention: result.intent.displayName, score: result.intentDetectionConfidence });
           });
     });
 });
