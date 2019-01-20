@@ -45,7 +45,7 @@ class ApiInterface {
     /**
      * Sends a request (message) to bot and returns a Promise containing a DetectIntentResponse
      * @param {DetectIntentRequest} request The formatted request to send (https://cloud.google.com/dialogflow-enterprise/docs/reference/rpc/google.cloud.dialogflow.v2#google.cloud.dialogflow.v2.DetectIntentRequest)
-     * @returns {DetectIntentResponse} The response of the bot
+     * @returns {QueryResult} The response of the bot
      */
     async sendRequest(request) {
         const responses = await this.sessionClient.detectIntent(request).catch((error) => {

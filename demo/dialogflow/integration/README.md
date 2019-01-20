@@ -1,10 +1,5 @@
-## Dependencies
-dialogflow  | ```npm install dialogflow``` (1)
-uuid        | ```npm install uuid```
-structjson  | ```npm install structjson```
-
 ## Useful links and resources
 
-(1) Dialogflow's detect intent API is a great way to integrate your Dialogflow agent into your website or app. The detect intent API enables you to query your agent with a user's request (audio or text) and receive your agent's response to the user's request.
+Dialogflow's detect intent API is a great way to integrate your Dialogflow agent into your website or app. The detect intent API enables you to query your agent with a user's request (audio or text) and receive your agent's response to the user's request.
 The agent API allows you to dynamically change the behavior of your Dialogflow agent by allowing you to create, read, update and delete intents, entities and contexts. https://github.com/googleapis/nodejs-dialogflow
 

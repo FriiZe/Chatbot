@@ -21,7 +21,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('message', function (message) {
         request = api.createRequest(message);
         api.sendRequest(request).then((result) => {
-            socket.emit('message', {nickname: 'Chatbot', message: result.fulfillmentText, intention: result.intent.displayName, score: result.intentDectectionConfidence});
+            socket.emit('message', {nickname: 'Chatbot', message: result.fulfillmentText, intention: result.intent.displayName, score: result.intentDetectionConfidence});
         });
     });
 });
