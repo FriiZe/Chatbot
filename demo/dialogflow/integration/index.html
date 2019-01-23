@@ -62,11 +62,11 @@
             // Ajoute un message dans la page
             function insertMessage(nickname, message,intention,score) {
                 if(score*100 > 70 ){
-                $('#zone_chat').prepend('<div class="card text-white bg-success">');
+                  $('#zone_chat').prepend('<div class="card text-white bg-success">');
                 }else if(score*100 > 50 && score*100 < 70){
-                $('#zone_chat').prepend('<div class="card text-white bg-warning">');
+                  $('#zone_chat').prepend('<div class="card text-white bg-warning">');
                 }else{
-                $('#zone_chat').prepend('<div class="card text-white bg-danger">');
+                  $('#zone_chat').prepend('<div class="card text-white bg-danger">');
                 }
                 $('#zone_chat').prepend('<div class="card-header"><span class="badge badge-secondary">'+nickname+'</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
             }

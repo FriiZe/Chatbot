@@ -1,13 +1,13 @@
-const express = require('express');
-const http = require('http');
-const sock = require('socket.io');
-const ent = require('ent'); 
-const fs = require('fs');
-const ApiInterface = require('./backend.js');
 
-const app = express();
-const server = http.createServer();
-const io = sock.listen(server);
+var http = require('http');
+var sock = require('socket.io');
+var ent = require('ent');
+var fs = require('fs');
+var ApiInterface = require('./backend.js');
+
+var app = require('express')();
+var server = http.createServer(app);
+var io = sock.listen(server);
 const api = new ApiInterface();
 
 const port = 3000;
