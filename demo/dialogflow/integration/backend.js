@@ -24,7 +24,7 @@ class ApiInterface {
      * https://cloud.google.com/dialogflow-enterprise/docs/reference/rpc/google.cloud.dialogflow.v2#google.cloud.dialogflow.v2.DetectIntentRequest
      * Creates a DetectIntentRequest
      * @param {string} message The message to send to the bot
-     * @returns The new request 
+     * @returns The new request
      */
     createRequest(message) {
         const request = {
