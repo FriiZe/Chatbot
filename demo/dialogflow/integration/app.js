@@ -1,8 +1,6 @@
 const express = require('express');
 const http = require('http');
 const sock = require('socket.io');
-const ent = require('ent'); 
-const fs = require('fs');
 const ApiInterface = require('./backend.js');
 
 const app = express();
@@ -21,6 +19,9 @@ io.sockets.on('connection', function (socket) {
     socket.on('message', function (message) {
         request = api.createRequest(message);
         api.sendRequest(request).then((result) => {
+            let quick_reponses = api.getQuickResponses(result); // api call example
+            console.log(quick_reponses);
+
             socket.emit('message', {nickname: 'Chatbot', message: result.fulfillmentText, intention: result.intent.displayName, score: result.intentDetectionConfidence});
         });
     });

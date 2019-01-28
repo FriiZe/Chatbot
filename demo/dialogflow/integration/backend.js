@@ -66,6 +66,26 @@ class ApiInterface {
             resolve(result);
         });
     }
+
+    /**
+     * Extract the quick responses from the result of the sendRequest function.
+     * The list of quick responses may be empty if there are none. 
+     * @param {QueryResult} result 
+     * @returns A list of strings (may be empty if there are no quick responses)
+     */
+    getQuickResponses(result) {
+        let messages = result.fulfillmentMessages; // all messages sent by the bot (normal response + suggestions)
+        let quick_reponses = []
+        for (let i in messages) {
+            if (messages[i].platform == 'ACTIONS_ON_GOOGLE' && messages[i].message == 'suggestions') {
+                let suggestions = JSON.parse(JSON.stringify(messages[i].suggestions.suggestions)); // don't ask why.....
+                for (let j in suggestions) {
+                    quick_reponses.push(suggestions[j].title);
+                }
+            }
+        }
+        return quick_reponses;
+    }
 }
 
 module.exports = ApiInterface;

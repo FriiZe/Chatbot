@@ -30,7 +30,7 @@
 
             <div class="row">
                 <div class="col-md-10">
-                    <section id="zone_chat">
+                    <section id="chat_zone">
 
                     </section>
                 </div>
@@ -49,30 +49,31 @@
                 insertMessage(data.nickname, data.message, data.intention, data.score);
             })
 
-            // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
+            // Send and display the message when the form is sent
             $('#chat_form').submit(function () {
                 var message = $('#message').val();
                 if (message == "") return false;
-                socket.emit('message', message); // Transmet le message au serveur
-                userMessage("You", message); // Affiche le message aussi sur notre page
-                $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
-                return false; // Permet de bloquer l'envoi "classique" du formulaire
+                socket.emit('message', message); 
+                userMessage("You", message); 
+                $('#message').val('').focus(); 
+                return false; 
             });
 
-            // Ajoute un message dans la page
-            function insertMessage(nickname, message,intention,score) {
-                if(score*100 > 70 ){
-                $('#zone_chat').prepend('<div class="card text-white bg-success">');
-                }else if(score*100 > 50 && score*100 < 70){
-                $('#zone_chat').prepend('<div class="card text-white bg-warning">');
-                }else{
-                $('#zone_chat').prepend('<div class="card text-white bg-danger">');
+            // Insert the given in the page along with the nickname of the author.
+            function insertMessage(nickname, message, intention, score) {
+                if (score * 100 > 70) {
+                    $('#chat_zone').prepend('<div class="card text-white bg-success">');
+                } else if (score * 100 > 50 && score * 100 < 70) {
+                    $('#chat_zone').prepend('<div class="card text-white bg-warning">');
+                } else{
+                    $('#chat_zone').prepend('<div class="card text-white bg-danger">');
                 }
-                $('#zone_chat').prepend('<div class="card-header"><span class="badge badge-secondary">'+nickname+'</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
+                $('#chat_zone').prepend('<div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
             }
 
-            function userMessage(nickname,message){
-                $('#zone_chat').prepend('<div class="card"><div class="card-header"><span class="badge badge-secondary">'+nickname+'</span> ' + message + '</div></div>')
+            // Insert a message by the user
+            function userMessage(nickname, message){
+                $('#chat_zone').prepend('<div class="card"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>')
             }
         </script>
     </body>
