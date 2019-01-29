@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Chatbot prototype</title>
+        <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Chatbot prototype</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <form action="/" method="post" id="chat_form">
+                            <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
+                            <input type="submit" id="send_message" value="Envoyer" class="btn btn-primary" />
+                            <div id="quick_reponses">
+                              <!--- quick reponses-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <section id="chat_zone">
+
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:3000');
+
+            // when a message is received, display it on the screen
+            socket.on('message', function(data) {
+                insertMessage(data.nickname, data.message, data.intention, data.score, data.quick_reponses);
+            })
+
+            // Send and display the message when the form is sent
+            $('#chat_form').submit(function () {
+                var message = $('#message').val();
+                if (message == "") return false;
+                send(message);
+                $('#message').val('').focus();
+                return false;
+            });
+
+            // Insert the given in the page along with the nickname of the author.
+            function insertMessage(nickname, message, intention, score, quick_reponses) {
+                if (score * 100 > 70) {
+                    $('#chat_zone').prepend('<div class="card text-white bg-success">');
+                } else if (score * 100 > 50 && score * 100 < 70) {
+                    $('#chat_zone').prepend('<div class="card text-white bg-warning">');
+                } else{
+                    $('#chat_zone').prepend('<div class="card text-white bg-danger">');
+                }
+                $('#chat_zone').prepend('<div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
+                $('#quick_reponses').innerHTML="";
+                for(let i in quick_reponses){
+                    var qr = quick_reponses[i];
+                    $('#quick_reponses').prepend('<button class="btn btn-dark" style="margin:10px" onClick="send(' + qr + ')" value="' + qr + '">' + qr + '</button>');
+                }
+            }
+
+            // Insert a message by the user
+            function userMessage(nickname, message){
+                $('#chat_zone').prepend('<div class="card"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>')
+            }
+
+            function send(message){
+              socket.emit('message', message);
+              userMessage("You", message);
+            }
+        </script>
+    </body>
+</html>

@@ -6,11 +6,11 @@ from flask import make_response
 from flask import jsonify
 
 course_urls = {
-    u"Mathématiques":u"https://www.u-bordeaux.fr/formation/2018/PRLIMA_110/mathematiques", 
-    u"Chimie":u"https://www.u-bordeaux.fr/formation/2018/PRLICH_110/chimie",
-    u"Physique":u"https://www.u-bordeaux.fr/formation/2018/PRLIPH/physique",
-    u"Informatique":u"https://www.u-bordeaux.fr/formation/2018/PRLIIN_110/informatique",
-    u"Biologie":u"https://www.u-bordeaux.fr/formation/2018/PRLISV/sciences-de-la-vie"
+    u"Mathématiques" : u"https://www.u-bordeaux.fr/formation/2018/PRLIMA_110/mathematiques", 
+    u"Chimie" : u"https://www.u-bordeaux.fr/formation/2018/PRLICH_110/chimie",
+    u"Physique" : u"https://www.u-bordeaux.fr/formation/2018/PRLIPH/physique",
+    u"Informatique" : u"https://www.u-bordeaux.fr/formation/2018/PRLIIN_110/informatique",
+    u"Biologie" : u"https://www.u-bordeaux.fr/formation/2018/PRLISV/sciences-de-la-vie"
 }
 
 app = Flask(__name__)
