@@ -32,5 +32,5 @@ io.sockets.on('connection', function (socket) {
 });
 
 server.listen(port, function () {
-  console.log('Example app listening on port 3000!')
+    console.log('listening on port 3000')
 });
