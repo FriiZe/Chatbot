@@ -63,6 +63,7 @@
 
             // Insert the given in the page along with the nickname of the author.
             function insertMessage(nickname, message, intention, score, quick_reponses) {
+                // display the color bar based on the bot's confidence about the last intent
                 if (score * 100 > 70) {
                     $('#chat_zone').prepend('<div class="card text-white bg-success">');
                 } else if (score * 100 > 50 && score * 100 < 70) {
@@ -70,9 +71,10 @@
                 } else{
                     $('#chat_zone').prepend('<div class="card text-white bg-danger">');
                 }
-                $('#chat_zone').prepend('<div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
-                $('#quick_reponses').innerHTML="";
-                for(let i in quick_reponses){
+                $('#chat_zone').prepend('<div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' | Score:'+score+' | quick responses: '+(quick_reponses.length == 0 ? "non" : "oui")+'</div></div></div>');
+                
+                // display quick responses
+                for(let i in quick_reponses) {
                     var qr = quick_reponses[i];
                     $('#quick_reponses').prepend('<button class="btn btn-dark" style="margin:10px" onClick="send(this.value)" value="' + qr + '">' + qr + '</button>');
                 }
@@ -83,6 +85,7 @@
                 $('#chat_zone').prepend('<div class="card"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>')
             }
 
+            // Send the message to the server and displays it
             function send(message){
               socket.emit('message', message);
               userMessage("You", message);

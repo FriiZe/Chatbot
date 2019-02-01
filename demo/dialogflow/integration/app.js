@@ -19,12 +19,11 @@ io.sockets.on('connection', function (socket) {
         request = api.createRequest(message);
         api.sendRequest(request).then((result) => {
             let quick_reponses = api.getQuickResponses(result); // api call example
-            console.log(typeof quick_reponses);
             socket.emit('message', {nickname: 'Chatbot', message: result.fulfillmentText, intention: result.intent.displayName, score: result.intentDetectionConfidence, quick_reponses: quick_reponses});
         });
     });
 });
 
 server.listen(port, function () {
-  console.log('Example app listening on port 3000!')
+    console.log('listening on port 3000')
 });
