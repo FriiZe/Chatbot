@@ -71,16 +71,9 @@
                 } else{
                     $('#chat_zone').prepend('<div class="card text-white bg-danger">');
                 }
-<<<<<<< HEAD
                 $('#chat_zone').prepend('<div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
                 $('#quick_reponses').html("") ;
                 for(let i in quick_reponses){
-=======
-                $('#chat_zone').prepend('<div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' | Score:'+score+' | quick responses: '+(quick_reponses.length == 0 ? "non" : "oui")+'</div></div></div>');
-                
-                // display quick responses
-                for(let i in quick_reponses) {
->>>>>>> bd80481081bd849dc1517a69fdb6e8f686310479
                     var qr = quick_reponses[i];
                     $('#quick_reponses').prepend('<button class="btn btn-dark" style="margin:10px" onClick="send(this.value)" value="' + qr + '">' + qr + '</button>');
                 }

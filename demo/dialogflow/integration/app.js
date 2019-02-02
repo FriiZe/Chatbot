@@ -16,14 +16,14 @@ app.get('/', function (req, res) {
 });
 
 io.sockets.on('connection', function (socket) {
-  if(client_arr[socket.id] == undefined ){
-    client_arr[socket.id] = new ApiInterface();
-  }else{
-    //TODO: Redonner historique
-  }
+    if(client_arr[socket.id] == undefined) {
+        client_arr[socket.id] = new ApiInterface();
+    } else{
+        //TODO: Redonner historique
+    }
     console.log('new user connected: ' + socket.client.id);
     socket.on('message', function (message) {
-        request = api.createRequest(message);
+        request = client_arr[socket.id].createRequest(message);
         client_arr[socket.id].sendRequest(request).then((result) => {
             let quick_reponses = client_arr[socket.id].getQuickResponses(result); // api call example
             socket.emit('message', {nickname: 'Chatbot', message: result.fulfillmentText, intention: result.intent.displayName, score: result.intentDetectionConfidence, quick_reponses: quick_reponses});
