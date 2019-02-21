@@ -1,36 +1,47 @@
 var http = require('http');
 var sock = require('socket.io');
-var ApiInterface = require('./backend.js');
+var BotSession = require('./bot_session.js');
 
 var app = require('express')();
 var server = http.createServer(app);
 var io = sock.listen(server);
 
-
-const port = 3000;
-
-var client_arr = new Object();
+const PORT = 3000;
+let clientList = new Object();
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-io.sockets.on('connection', function (socket) {
-    if(client_arr[socket.id] == undefined) {
-        client_arr[socket.id] = new ApiInterface();
-    } else{
-        //TODO: Redonner historique
+io.sockets.on('connection', function(socket) {
+    if(clientList[socket.id] == undefined) {  // first connection
+        clientList[socket.id] = new BotSession();
+    } else { // connection already exists
+        // TODO: send back conversation
     }
-    console.log('new user connected: ' + socket.client.id);
+    
+    let botSession = clientList[socket.id];
+    console.log('*** New connection: ' + socket.client.id);
+    
+    // when receiving a user message, we wrap it in a "request", send it via the API and send back the response to the interface 
     socket.on('message', function (message) {
-        request = client_arr[socket.id].createRequest(message);
-        client_arr[socket.id].sendRequest(request).then((result) => {
-            let quick_reponses = client_arr[socket.id].getQuickResponses(result); // api call example
-            socket.emit('message', {nickname: 'Chatbot', message: result.fulfillmentText, intention: result.intent.displayName, score: result.intentDetectionConfidence, quick_reponses: quick_reponses});
+        let request = botSession.createRequest(message);
+        botSession.sendRequest(request).then((result) => {
+            let quick_reponses = botSession.getQuickResponses(result); // api call example
+            let payload = {
+                nickname: 'Chatbot', 
+                message: result.fulfillmentText, 
+                intention: (result.intent != null ? result.intent.displayName : "no intent"), 
+                score: result.intentDetectionConfidence, 
+                quick_reponses: quick_reponses
+            };
+            socket.emit('message', payload);
+        }).catch(function (error) {
+            console.error(error);
         });
     });
 });
 
-server.listen(port, function () {
-    console.log('listening on port 3000')
+server.listen(PORT, function () {
+    console.log('*** Listening on port '+PORT)
 });

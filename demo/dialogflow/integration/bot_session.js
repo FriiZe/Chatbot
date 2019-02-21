@@ -2,7 +2,7 @@ const dialogflow = require('dialogflow');
 const structjson = require('structjson')
 const uuid = require('uuid');
 
-class ApiInterface {
+class BotSession {
 
     constructor() {
         this.init();
@@ -88,4 +88,4 @@ class ApiInterface {
     }
 }
 
-module.exports = ApiInterface;
+module.exports = BotSession;

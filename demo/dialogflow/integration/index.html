@@ -12,7 +12,7 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-10">
                     <h1>Chatbot prototype</h1>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                             <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
                             <input type="submit" id="send_message" value="Envoyer" class="btn btn-primary" />
                             <div id="quick_reponses">
-                              <!--- quick reponses-->
+                                
                             </div>
                         </form>
                     </div>
@@ -32,7 +32,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-sm">
                     <section id="chat_zone">
 
                     </section>
@@ -46,12 +46,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
         <script>
             var socket = io.connect('localhost:3000');
-
-            // when a message is received, display it on the screen
+            
+            // when a message is received, insert it in the page
             socket.on('message', function(data) {
-                insertMessage(data.nickname, data.message, data.intention, data.score, data.quick_reponses);
+                insertBotMessage(data.nickname, data.message, data.intention, data.score, data.quick_reponses);
             })
-
+            
             // Send and display the message when the form is sent
             $('#chat_form').submit(function () {
                 var message = $('#message').val();
@@ -60,35 +60,38 @@
                 $('#message').val('').focus();
                 return false;
             });
-
-            // Insert the given in the page along with the nickname of the author.
-            function insertMessage(nickname, message, intention, score, quick_reponses) {
+            
+            // Insert the response of the bot and the quick responses + some debug info
+            function insertBotMessage(nickname, message, intention, score, quick_reponses) {
                 // display the color bar based on the bot's confidence about the last intent
-                if (score * 100 > 70) {
+                if (score * 100 > 70)
                     $('#chat_zone').prepend('<div class="card text-white bg-success">');
-                } else if (score * 100 > 50 && score * 100 < 70) {
+                else if (score * 100 > 50 && score * 100 < 70)  
                     $('#chat_zone').prepend('<div class="card text-white bg-warning">');
-                } else{
+                else                                            
                     $('#chat_zone').prepend('<div class="card text-white bg-danger">');
-                }
-                $('#chat_zone').prepend('<div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div><div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
-                $('#quick_reponses').html("") ;
-                for(let i in quick_reponses){
+                // insert bot response
+                $('#chat_zone').prepend('<div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div>');
+                // insert debug info
+                $('#chat_zone').prepend('<div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
+                // insert quick responses
+                $('#quick_reponses').html("");
+                for(let i in quick_reponses) {
                     var qr = quick_reponses[i];
                     $('#quick_reponses').prepend('<button class="btn btn-dark" style="margin:10px" onClick="send(this.value)" value="' + qr + '">' + qr + '</button>');
                 }
             }
-
-            // Insert a message by the user
-            function userMessage(nickname, message){
+            
+            // Insert the message sent by the user
+            function insertUserMessage(nickname, message){
                 $('#chat_zone').prepend('<div class="card"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>')
             }
-
-            // Send the message to the server and displays it
+            
+            // Send a user message to the server and display it
             function send(message){
-              socket.emit('message', message);
-              userMessage("You", message);
-              $('#quick_reponses').html("");
+                socket.emit('message', message);
+                insertUserMessage("You", message);
+                $('#quick_reponses').html("");
             }
         </script>
     </body>
