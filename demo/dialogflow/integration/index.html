@@ -32,8 +32,13 @@
             </div>
 
             <div class="row">
-                <div class="col-sm">
+                <div class="col">
                     <section id="chat_zone">
+
+                    </section>
+                </div>
+                <div class="col">
+                    <section id="debug_zone">
 
                     </section>
                 </div>
@@ -63,17 +68,18 @@
             
             // Insert the response of the bot and the quick responses + some debug info
             function insertBotMessage(nickname, message, intention, score, quick_reponses) {
-                // display the color bar based on the bot's confidence about the last intent
-                if (score * 100 > 70)
-                    $('#chat_zone').prepend('<div class="card text-white bg-success">');
-                else if (score * 100 > 50 && score * 100 < 70)  
-                    $('#chat_zone').prepend('<div class="card text-white bg-warning">');
-                else                                            
-                    $('#chat_zone').prepend('<div class="card text-white bg-danger">');
                 // insert bot response
-                $('#chat_zone').prepend('<div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div>');
+                $('#chat_zone').prepend('<div class="card bg-muted"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>');
                 // insert debug info
-                $('#chat_zone').prepend('<div class="card-body"><div class="card-text">Intention: '+intention+' - Score :'+score+'</div></div></div>');
+                let color;
+                if (score * 100 > 70)
+                    color = "success";
+                else if (score * 100 > 50 && score * 100 < 70)  
+                    color = "warning";
+                else     
+                    color = "danger";
+                $('#debug_zone').prepend('<div class="card text-white bg-'+color+'"><div class="card-text"><span class="font-weight-bold">Intention :</span> '+intention+'<br /><span class="font-weight-bold">Indice de confiance :</span> '+score+'</div></div>');
+
                 // insert quick responses
                 $('#quick_reponses').html("");
                 for(let i in quick_reponses) {
@@ -84,13 +90,13 @@
             
             // Insert the message sent by the user
             function insertUserMessage(nickname, message){
-                $('#chat_zone').prepend('<div class="card"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>')
+                $('#chat_zone').prepend('<div class="card bg-dark text-light"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>')
             }
             
             // Send a user message to the server and display it
             function send(message){
-                socket.emit('message', message);
                 insertUserMessage("You", message);
+                socket.emit('message', message);
                 $('#quick_reponses').html("");
             }
         </script>

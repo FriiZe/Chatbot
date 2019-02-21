@@ -53,8 +53,8 @@ class BotSession {
         });
         let result = responses[0].queryResult;
 
-        // There is a bug in gRPC that the returned google.protobuf.Struct value contains fields with value of null, which causes error
-        // when encoding it back. Converting to JSON and back to proto removes those values.
+        /* There is a bug in gRPC that the returned google.protobuf.Struct value contains fields with value of null, which causes error
+           when encoding it back. Converting to JSON and back to proto removes those values. */
         result.outputContexts.forEach(context => {
             context.parameters = structjson.jsonToStructProto(
                 structjson.structProtoToJson(context.parameters)
