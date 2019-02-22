@@ -6,7 +6,7 @@ var app = require('express')();
 var server = http.createServer(app);
 var io = sock.listen(server);
 
-const PORT = 3000;
+const PORT = 80;
 let clientList = new Object();
 
 app.get('/', function (req, res) {
