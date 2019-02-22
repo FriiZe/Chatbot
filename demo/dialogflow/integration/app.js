@@ -42,6 +42,10 @@ io.sockets.on('connection', function(socket) {
     });
 });
 
+io.sockets.on("disconnection", function(socket) {
+    clientList[socket.id] = undefined;
+});
+
 server.listen(PORT, function () {
     console.log('*** Listening on port '+PORT)
 });
