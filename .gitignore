@@ -1,5 +1,2 @@
-demo/google/node/node_modules
-demo/dialogflow/node_modules
-demo/dialogflow/key.json
-.pyd
+node_modules
 key.json

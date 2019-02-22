@@ -2,8 +2,8 @@
 
 1. Téléchager la clé privée sous format json
 2. ```export GOOGLE_APPLICATION_CREDENTIALS="chemin_vers_clé.json"```
-3. ```npm install``` depuis le dossier dialogflow/
-4. ```node app.js``` depuis le dossier dialogflow/integration/
+3. ```npm install``` depuis le dossier chatbot/
+4. ```node app.js``` depuis le dossier chabot/integration/
 
 ## Fonctionnalités du prototype et pile technologique
 

@@ -1,8 +1,8 @@
 {
-  "name": "dialogflow",
+  "name": "chatbot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "bootstrap": "^4.2.1",
     "dialogflow": "^0.7.0",
@@ -14,7 +14,6 @@
     "structjson": "^1.0.1",
     "uuid": "^3.3.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/Meplos/Chatbot.git"
   },
-  "author": "",
+  "author": "Alexandre, Romain, Pierre, Thimotée, Melvin",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Meplos/Chatbot/issues"
