@@ -1,7 +1,8 @@
-## Lancer le serveur node
+Nous hébergeons déjà une version du prototype [ici](http://melvin.even.emi.u-bordeaux.fr/chatbot/index.html)
 
-1. Téléchager la clé privée sous format json
-2. ```export GOOGLE_APPLICATION_CREDENTIALS="chemin_vers_clé.json"```
+## Lancer le serveur localement
+
+2. ```export GOOGLE_APPLICATION_CREDENTIALS="chemin_vers_key.json"```
 3. ```npm install``` depuis le dossier chatbot/
 4. ```node app.js``` depuis le dossier chabot/integration/
 
@@ -12,6 +13,12 @@
 * Intégration des "réponses rapides"
 * Traitement des requêtes complexes avec un webhook (voir fullfillment) 
 * Interface minimale
+
+## Exemples de points d'entrée : 
+* j'ai des problèmes de connexion
+* je veux envoyer des messages à des étudiants
+* comment activer son idnum ?
+* j'ai des problèmes de mot de passe
 
 ## Liens et ressources
 
