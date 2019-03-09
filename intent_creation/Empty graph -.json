@@ -1,0 +1,57 @@
+[
+    {
+        "label": "probleme_connexion_entree",
+        "response": "",
+        "training_sentences": [
+            "J'ai des problèmes de connexion"
+        ],
+        "entry_point": true,
+        "leaf": false,
+        "output": "context_probleme_connexion",
+        "input": ""
+    },
+    {
+        "label": "probleme_connexion",
+        "response": "Avez-vous des problèmes d'identifiants/mot de passe ?",
+        "training_sentences": [
+            "Non"
+        ],
+        "entry_point": false,
+        "leaf": false,
+        "output": "context_probleme_shibbolet",
+        "input": "context_probleme_connexion"
+    },
+    {
+        "label": "probleme_shibbolet_a",
+        "response": "Avez-vous un message du type \"shibbolet\"",
+        "training_sentences": [
+            "Non"
+        ],
+        "entry_point": false,
+        "leaf": true,
+        "output": "",
+        "input": "context_probleme_shibbolet"
+    },
+    {
+        "label": "probleme_shibbolet_b",
+        "response": "Avez-vous un message du type \"shibbolet\"",
+        "training_sentences": [
+            "Oui"
+        ],
+        "entry_point": false,
+        "leaf": true,
+        "output": "",
+        "input": "context_probleme_shibbolet"
+    },
+    {
+        "label": "probleme_shibbolet_entree",
+        "response": "",
+        "training_sentences": [
+            "J'ai un problème avec shibbolet"
+        ],
+        "entry_point": true,
+        "leaf": false,
+        "output": "context_probleme_shibbolet",
+        "input": ""
+    }
+]
