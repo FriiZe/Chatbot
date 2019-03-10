@@ -111,7 +111,8 @@ async function createIntents(intents) {
             await createIntentRequest(intent);
             console.log("    Intent %s successfully added", intent.label);
         } else {
-            await createIntentRequest(intent);
+            const res = await createIntentRequest(intent);
+            console.log(res);
             console.log("    Intent %s successfully added", intent.label);
         }
     }
@@ -132,7 +133,16 @@ function getId(intentName) {
  * Takes an intent object from the json and wraps it in a request for the API
  */
 async function createIntentRequest(intent) {
-    const trainingPhrases = [];
+    let trainingPhrases = [];
+    let inputNames = [];
+    if (intent.input != "") inputNames.push(contextPaths[intent.input]);
+    let outputContexts = [];
+    if (intent.output != "") {
+        // const outputContext = await contextsClient.getContext({name: contextPaths[intent.output]});
+        outputContexts.push({name: contextPaths[intent.output], lifespanCount: 1});
+    }
+    console.log(inputNames);
+    console.log(outputContexts);
     (intent.training_sentences).forEach(trainingSentencePart => {
         const part = {
             text: trainingSentencePart
@@ -152,7 +162,9 @@ async function createIntentRequest(intent) {
     const intentRequest = {
         displayName: intent.label,
         trainingPhrases: trainingPhrases,
-        messages: [message]
+        messages: [message],
+        inputContextNames: inputNames, 
+        outputContexts: outputContexts
     };
     const createIntentRequest = {
         parent: agentPath,

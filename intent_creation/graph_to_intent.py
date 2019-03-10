@@ -11,6 +11,7 @@ def main(graph):
   entryPoints = graph.getBooleanProperty("isEntryPoint")
   leaves = graph.getBooleanProperty("isLeaf")
   letters = "abcdefghijklmnopqrstuvxyz"
+  intents = []
 
   # mark the entry points and leaves
   for n in graph.getNodes():
@@ -23,25 +24,24 @@ def main(graph):
     else:
       viewColor[n] = tlp.Color(255, 95, 95)
       entryPoints[n] = False
-      leaves[n] = False
-        
-  intents = []
+      leaves[n] = False  
   
   # convert the graph to a list of intents
   for n in graph.getNodes():
+    if entryPoints[n]: continue
     counter = 0
-    outEdges = [i for i in graph.getOutEdges(n)]
-    for e in outEdges:
-      inputContext = "" if entryPoints[n] else ("context_"+viewLabel[n])
-      outputContext = "" if leaves[graph.target(e)] else ("context_"+viewLabel[graph.target(e)])
-      suffix = "" if counter == 0 and len(outEdges) == 1 else "_"+letters[counter]
+    inDegree = graph.indeg(n)
+    for e in graph.getInEdges(n):
+      inputContext = "" if entryPoints[graph.source(e)] else ("context_"+viewLabel[graph.source(e)])
+      outputContext = "" if leaves[n] else ("context_"+viewLabel[n])
+      suffix = "" if counter == 0 and inDegree == 1 else "_"+letters[counter]
       intent = {
         "label":viewLabel[n]+suffix, 
         "response":response[n], 
         "training_sentences":trainingSentences[e],
         "quick_responses":quickResponses[n], 
-        "entry_point":entryPoints[n], 
-        "leaf":leaves[graph.target(e)], 
+        "entry_point":entryPoints[graph.source(e)], 
+        "leaf":leaves[n], 
         "output":outputContext, 
         "input":inputContext
       }
