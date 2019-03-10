@@ -14,7 +14,7 @@ const lang = "fr";
 let file_format = /([a-zA-Z0-9\_\-\(\)\\\s])+.json/;
 let files = [];
 
-let contextPaths = {} // dict ("context_name" : "context_path")
+let contextStructs = {} 
 
 // process args
 if (process.argv.length <= 2) {
@@ -87,11 +87,11 @@ async function createContexts(intents) {
     for (const intent of intents) {
         const input = intent.input;
         const output = intent.output;
-        if (contextPaths[input] == undefined && input != "") { 
+        if (contextStructs[input] == undefined && input != "") { 
             await createContextRequest(input);
             console.log("  Context %s successfully added", input);
         }
-        if (contextPaths[output] == undefined && output != "") {
+        if (contextStructs[output] == undefined && output != "") {
             await createContextRequest(output);
             console.log("  Context %s successfully added", output);
         }
@@ -112,7 +112,7 @@ async function createIntents(intents) {
             console.log("    Intent %s successfully added", intent.label);
         } else {
             const res = await createIntentRequest(intent);
-            console.log(res);
+            // console.log(res);
             console.log("    Intent %s successfully added", intent.label);
         }
     }
@@ -135,36 +135,44 @@ function getId(intentName) {
 async function createIntentRequest(intent) {
     let trainingPhrases = [];
     let inputNames = [];
-    if (intent.input != "") inputNames.push(contextPaths[intent.input]);
     let outputContexts = [];
-    if (intent.output != "") {
-        // const outputContext = await contextsClient.getContext({name: contextPaths[intent.output]});
-        outputContexts.push({name: contextPaths[intent.output], lifespanCount: 1});
+    let messages = [];
+    if (intent.input != "") inputNames.push(contextStructs[intent.input]["name"]);
+    if (intent.output != "") outputContexts.push(contextStructs[intent.output]);
+    if ((intent.quick_responses).length != 0) {
+        let replies = [];
+        for (const reply of intent.quick_responses) {
+            replies.push({title:reply});
+        }
+        messages.push({
+            suggestions: {
+                suggestions : replies
+            }
+        });
     }
-    console.log(inputNames);
-    console.log(outputContexts);
     (intent.training_sentences).forEach(trainingSentencePart => {
-        const part = {
-            text: trainingSentencePart
-        };
         const trainingPhrase = {
             type: 'EXAMPLE',
-            parts: [part]
+            parts: [
+                {
+                    text: trainingSentencePart
+                }
+            ]
         };
         trainingPhrases.push(trainingPhrase);
     });
-    const messageText = {
-        text: [intent.response]
-    };
-    const message = {
-        text: messageText
-    };
+    messages.push({
+        text: {
+            text: [intent.response]
+        }
+    });
     const intentRequest = {
         displayName: intent.label,
         trainingPhrases: trainingPhrases,
-        messages: [message],
+        messages: messages,
         inputContextNames: inputNames, 
-        outputContexts: outputContexts
+        outputContexts: outputContexts,
+        defaultResponsePlatforms: ["ACTIONS_ON_GOOGLE"]
     };
     const createIntentRequest = {
         parent: agentPath,
@@ -179,7 +187,6 @@ async function createIntentRequest(intent) {
  */
 async function createContextRequest(context) {
     const contextPath = contextsClient.contextPath(projectId, sessionIdContext, context);
-    contextPaths[context] = contextPath;
     const request = {
         parent: contextSessionPath,
         context: {
@@ -187,7 +194,9 @@ async function createContextRequest(context) {
           lifespanCount: 1
         }
     };
-    return await contextsClient.createContext(request);
+    const res = await contextsClient.createContext(request);
+    contextStructs[context] = res[0];
+    return res[0];
 }
 
 async function deleteIntent(intent) {
