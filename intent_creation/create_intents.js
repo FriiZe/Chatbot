@@ -6,6 +6,7 @@ const projectId = "test-cdda6";
 const sessionIdContext = uuid.v4();
 const contextsClient = new dialogflow.ContextsClient();
 const intentsClient = new dialogflow.IntentsClient();
+const agentsClient = new dialogflow.AgentsClient();
 const contextSessionPath = contextsClient.sessionPath(projectId, sessionIdContext);
 const agentPath = intentsClient.projectAgentPath(projectId);
 const lang = "fr";
@@ -32,61 +33,32 @@ if (process.argv.length <= 2) {
     }
 }
 
-// list all current intents id and names
-let intentsList = [];
-initIntentsList().then(res => {parseFiles();}).catch(err => {console.error(err);});
+// save the current state of the bot
+// const exportRequest = {};
+// agentsClient.exportAgent();
 
-function parseFiles() {
+// list all current intents id and names then parse the files
+let intentsList = []; // list of 2-tuple (id, name)
+initIntentsList()
+    .then(res => parseFiles())
+    .catch(err => console.error(err));
+
+/**
+ * Parses the given files (creates contexts and intents)
+ */
+async function parseFiles() {
     for (const file of files) {
         console.log("Parsing file \'"+file+"\'...");
         let fileData = fs.readFileSync(file);
         let intents = JSON.parse(fileData);
-    
-        // create contexts
-        for (const intent of intents) {
-            const input = intent.input;
-            const output = intent.output;
-            if (contextPaths[input] == undefined && input != "") { 
-                createContextRequest(input).then(res => {
-                    console.log("  Context %s successfully added", input);
-                }).catch(err => {
-                    console.error(err);
-                });
-            }
-            if (contextPaths[output] == undefined && output != "") {
-                createContextRequest(output).then(res => {
-                    console.log("  Context %s successfully added", output);
-                }).catch(err => {
-                    console.error(err);
-                });
-            }
-        }
-        
-        // create intents
-        for (const intent of intents) {
-            console.log("  Creating intent \'"+intent.label+"\'");
-            if (intentAlreadyExist(intent.label)) {
-                console.log("  Intent %s already exists, updating it...", intent.label)
-                deleteIntent(intent).then(res => {
-                    // console.log("  Intent %s deleted", intent.label); 
-                    // createIntentRequest(intent).then(res => {
-                    //     console.log("  Intent %s successfully added", res[0])
-                    // }).catch((err) => {
-                    //     console.error(err.details);});
-                }).catch(err => {
-                        console.error(err);
-                });
-            } else {
-                createIntentRequest(intent).then(res => {
-                    console.log("  Intent %s successfully added", res.displayName);
-                }).catch((err) => {
-                    console.error(err.details);
-                });
-            }
-        }
+        await createContexts(intents);
+        await createIntents(intents);
     }
 }
 
+/**
+ * Initializes the list of intents
+ */
 async function initIntentsList() {
     const request = {
         parent: agentPath,
@@ -97,6 +69,9 @@ async function initIntentsList() {
     });
 }
 
+/**
+ * Returns true of the given intent already exists
+ */
 function intentAlreadyExist(intentName) {
     for (const intent of intentsList) {
         if (intentName == intent[1])
@@ -105,6 +80,46 @@ function intentAlreadyExist(intentName) {
     return false;
 }
 
+/**
+ * Creates the contexts used by the given list of intents
+ */
+async function createContexts(intents) {
+    for (const intent of intents) {
+        const input = intent.input;
+        const output = intent.output;
+        if (contextPaths[input] == undefined && input != "") { 
+            await createContextRequest(input);
+            console.log("  Context %s successfully added", input);
+        }
+        if (contextPaths[output] == undefined && output != "") {
+            await createContextRequest(output);
+            console.log("  Context %s successfully added", output);
+        }
+    }
+}
+
+/**
+ * Creates the intents (via the API) based on the given list of intents 
+ */
+async function createIntents(intents) {
+    for (const intent of intents) {
+        console.log("  * Creating intent "+intent.label+"...");
+        if (intentAlreadyExist(intent.label)) {
+            console.log("    Intent %s already exists, updating it...", intent.label);
+            await deleteIntent(intent);
+            console.log("    Intent %s deleted", intent.label); 
+            await createIntentRequest(intent);
+            console.log("    Intent %s successfully added", intent.label);
+        } else {
+            await createIntentRequest(intent);
+            console.log("    Intent %s successfully added", intent.label);
+        }
+    }
+}
+
+/**
+ * Returns the path of the given intent 
+ */
 function getId(intentName) {
     for (const intent of intentsList) {
         if (intent[1] == intentName)
@@ -144,8 +159,7 @@ async function createIntentRequest(intent) {
         intent: intentRequest,
         languageCode: lang
     };
-    const res = await intentsClient.createIntent(createIntentRequest);
-    return res;
+    return await intentsClient.createIntent(createIntentRequest);
 }
 
 /**
@@ -161,8 +175,7 @@ async function createContextRequest(context) {
           lifespanCount: 1
         }
     };
-    const res = await contextsClient.createContext(request);
-    return res;
+    return await contextsClient.createContext(request);
 }
 
 async function deleteIntent(intent) {

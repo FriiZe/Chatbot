@@ -4,6 +4,7 @@ import json
 def main(graph): 
   trainingSentences = graph.getStringVectorProperty("trainingSentences")
   response = graph.getStringProperty("response")
+  quickResponses = graph.getStringVectorProperty("quick_responses")
   viewColor = graph.getColorProperty("viewColor")
   viewLabel = graph.getStringProperty("viewLabel")
   viewLabelColor = graph.getColorProperty("viewLabelColor")
@@ -34,7 +35,16 @@ def main(graph):
       inputContext = "" if entryPoints[n] else ("context_"+viewLabel[n])
       outputContext = "" if leaves[graph.target(e)] else ("context_"+viewLabel[graph.target(e)])
       suffix = "" if counter == 0 and len(outEdges) == 1 else "_"+letters[counter]
-      intent = {"label":viewLabel[n]+suffix, "response":response[n], "training_sentences":trainingSentences[e], "entry_point":entryPoints[n], "leaf":leaves[graph.target(e)], "output":outputContext, "input":inputContext}
+      intent = {
+        "label":viewLabel[n]+suffix, 
+        "response":response[n], 
+        "training_sentences":trainingSentences[e],
+        "quick_responses":quickResponses[n], 
+        "entry_point":entryPoints[n], 
+        "leaf":leaves[graph.target(e)], 
+        "output":outputContext, 
+        "input":inputContext
+      }
       intents.append(intent)
       counter += 1
   
