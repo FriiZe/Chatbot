@@ -4,7 +4,7 @@ import json
 def main(graph): 
   trainingSentences = graph.getStringVectorProperty("trainingSentences")
   response = graph.getStringProperty("response")
-  quickResponses = graph.getStringVectorProperty("quick_responses")
+  quickResponses = graph.getStringVectorProperty("quickResponses")
   viewColor = graph.getColorProperty("viewColor")
   viewLabel = graph.getStringProperty("viewLabel")
   viewLabelColor = graph.getColorProperty("viewLabelColor")
