@@ -10,17 +10,58 @@
     </head>
 
     <body>
-      <nav class="navbarnavbar-dark bg-dark text-white">
-          <h1>Chatbot prototype</h1>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item ">
-              <a class="nav-brand" href="#">READ ME</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Chatbot prototype</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#readme" data-toggle="collapse">README</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
         <div class="container">
+          <div class="row">
+            <div class="collapse col-md-12" id="readme">
+              <div class="card">
+                <div class="card-title">
+                  <h1>READ ME</h1>
+                </div>
+                <div class="card-text">
+                  <p>Nous hébergeons déjà une version du prototype <a href="http://melvin.even.emi.u-bordeaux.fr/chatbot/index.html">ici</a></p>
+                  <h2 id="lancerleserveurlocalement">Lancer le serveur localement</h2>
+                  <ol>
+                    <li><code>export GOOGLE_APPLICATION_CREDENTIALS="chemin_vers_key.json"</code></li>
+                    <li><code>npm install</code> depuis le dossier chatbot/</li>
+                    <li><code>node app.js</code> depuis le dossier chabot/integration/</li>
+                  </ol>
+                  <h2 id="fonctionnalitsduprototypeetpiletechnologique">Fonctionnalités du prototype et pile technologique</h2>
+                  <ul>
+                    <li>Deux arbres décisionnels : un <a href="https://imgur.com/a/PdCsTNY">simple</a> et un <a href="https://imgur.com/a/qVJuVVP">complexe</a> </li>
+                    <li>Envoie de requêtes au bot via l'API js</li>
+                    <li>Intégration des "réponses rapides"</li>
+                    <li>Traitement des requêtes complexes avec un webhook (voir fullfillment) </li>
+                    <li>Interface minimale</li>
+                  </ul>
+                  <h2 id="exemplesdepointsdentre">Exemples de points d'entrée :</h2>
+                  <ul>
+                    <li>j'ai des problèmes de connexion</li>
+                    <li>je veux envoyer des messages à des étudiants</li>
+                    <li>comment activer son idnum ?</li>
+                    <li>j'ai des problèmes de mot de passe</li>
+                  </ul>
+                  <h2 id="liensetressources">Liens et ressources</h2>
+                  <h4 id="documentation">Documentation</h4>
+                  <ul>
+                    <li><a href="https://github.com/googleapis/nodejs-dialogflow">Detect API</a> : intéraction avec le bot (éditer/ajouter intentions, analyser texte/audio)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
             <div class="row">
                 <div class="col-md-10">
 
