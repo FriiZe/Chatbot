@@ -10,10 +10,55 @@
     </head>
 
     <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Chatbot prototype</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#readme" data-toggle="collapse">README</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
         <div class="container">
+          <div class="row">
+            <div class="collapse col-md-12" id="readme">
+              <div class="card">
+                <div class="card-title">
+                  <h1>READ ME</h1>
+                </div>
+                <div class="card-text">
+                  <h2 id="fonctionnalitsduprototypeetpiletechnologique">Fonctionnalités du prototype et pile technologique</h2>
+                  <ul>
+                    <li>Deux arbres décisionnels : un <a href="https://imgur.com/a/PdCsTNY" target="_blank">simple</a> et un <a href="https://imgur.com/a/qVJuVVP" target="_blank">complexe</a> </li>
+                    <li>Envoie de requêtes au bot via l'API js</li>
+                    <li>Intégration des "réponses rapides"</li>
+                    <li>Traitement des requêtes complexes avec un webhook (voir fullfillment) </li>
+                    <li>Interface minimale</li>
+                  </ul>
+                  <h2 id="exemplesdepointsdentre">Exemples de points d'entrée :</h2>
+                  <ul>
+                    <li>j'ai des problèmes de connexion</li>
+                    <li>je veux envoyer des messages à des étudiants</li>
+                    <li>comment activer son idnum ?</li>
+                    <li>j'ai des problèmes de mot de passe</li>
+                  </ul>
+                  <h2 id="liensetressources">Liens et ressources</h2>
+                  <p><a href="https://github.com/Meplos/Chatbot" target="_blank">Dépôt github (privé)</a></p>
+                  <h4 id="documentation">Documentation</h4>
+                  <ul>
+                    <li><a href="https://github.com/googleapis/nodejs-dialogflow">Detect API</a> : intéraction avec le bot (éditer/ajouter intentions, analyser texte/audio)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
             <div class="row">
                 <div class="col-md-10">
-                    <h1>Chatbot prototype</h1>
+
                 </div>
             </div>
 
@@ -51,12 +96,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
         <script>
             var socket = io.connect('localhost:5000');
-            
+
             // when a message is received, insert it in the page
             socket.on('message', function(data) {
                 insertBotMessage(data.nickname, data.message, data.intention, data.score, data.quick_reponses);
             })
-            
+
             // Send and display the message when the form is sent
             $('#chat_form').submit(function () {
                 var message = $('#message').val();
@@ -65,7 +110,7 @@
                 $('#message').val('').focus();
                 return false;
             });
-            
+
             // Insert the response of the bot and the quick responses + some debug info
             function insertBotMessage(nickname, message, intention, score, quick_reponses) {
                 // insert bot response
@@ -74,9 +119,9 @@
                 let color;
                 if (score * 100 > 70)
                     color = "success";
-                else if (score * 100 > 50 && score * 100 < 70)  
+                else if (score * 100 > 50 && score * 100 < 70)
                     color = "warning";
-                else     
+                else
                     color = "danger";
                 $('#debug_zone').prepend('<div class="card text-white bg-'+color+'"><div class="card-text"><span class="font-weight-bold">Intention :</span> '+intention+'<br /><span class="font-weight-bold">Indice de confiance :</span> '+score+'</div></div>');
 
@@ -87,12 +132,12 @@
                     $('#quick_reponses').prepend('<button class="btn btn-dark" style="margin:10px" onClick="send(this.value)" value="' + qr + '">' + qr + '</button>');
                 }
             }
-            
+
             // Insert the message sent by the user
             function insertUserMessage(nickname, message){
                 $('#chat_zone').prepend('<div class="card bg-dark text-light"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>')
             }
-            
+
             // Send a user message to the server and display it
             function send(message){
                 insertUserMessage("You", message);

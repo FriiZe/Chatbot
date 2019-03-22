@@ -40,10 +40,12 @@ io.sockets.on('connection', function(socket) {
             console.error(error);
         });
     });
-});
 
-io.sockets.on("disconnection", function(socket) {
-    clientList[socket.id] = undefined;
+    // when the connection is closed
+    socket.on('disconnect', function () {
+        console.log("deleting instance");
+        delete clientList[socket.id];
+    });
 });
 
 server.listen(PORT, function () {

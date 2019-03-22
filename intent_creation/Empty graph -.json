@@ -1,0 +1,71 @@
+[
+    {
+        "label": "probleme_connexion",
+        "response": "Avez-vous des problèmes d'identifiants/mot de passe ?",
+        "training_sentences": [
+            "J'ai des problèmes de connexion"
+        ],
+        "quick_responses": [
+            "Oui",
+            "Non"
+        ],
+        "entry_point": true,
+        "leaf": false,
+        "output": "context_probleme_connexion",
+        "input": ""
+    },
+    {
+        "label": "probleme_shibbolet_non",
+        "response": "Il doit s'agir d'un problème pour trouver un cours...",
+        "training_sentences": [
+            "Non"
+        ],
+        "quick_responses": [],
+        "entry_point": false,
+        "leaf": true,
+        "output": "",
+        "input": "context_probleme_shibbolet"
+    },
+    {
+        "label": "probleme_shibbolet_a",
+        "response": "Avez-vous un message du type \"shibbolet\"",
+        "training_sentences": [
+            "Non"
+        ],
+        "quick_responses": [
+            "Oui",
+            "Non"
+        ],
+        "entry_point": false,
+        "leaf": false,
+        "output": "context_probleme_shibbolet",
+        "input": "context_probleme_connexion"
+    },
+    {
+        "label": "probleme_shibbolet_b",
+        "response": "Avez-vous un message du type \"shibbolet\"",
+        "training_sentences": [
+            "J'ai un problème avec shibbolet"
+        ],
+        "quick_responses": [
+            "Oui",
+            "Non"
+        ],
+        "entry_point": true,
+        "leaf": false,
+        "output": "context_probleme_shibbolet",
+        "input": ""
+    },
+    {
+        "label": "probleme_shibbolet_oui",
+        "response": "Contacter nous à l'adresse suivante : moodle@u-bordeaux.fr",
+        "training_sentences": [
+            "Oui"
+        ],
+        "quick_responses": [],
+        "entry_point": false,
+        "leaf": true,
+        "output": "",
+        "input": "context_probleme_shibbolet"
+    }
+]
