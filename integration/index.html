@@ -97,9 +97,21 @@
         <script>
             var socket = io.connect('localhost:5000');
 
+
             // when a message is received, insert it in the page
             socket.on('message', function(data) {
                 insertBotMessage(data.nickname, data.message, data.intention, data.score, data.quick_reponses);
+            });
+
+            socket.on('historique',funtion(messages){
+              /*insert all message*/
+              messages.forEach(historique =>{
+                if(historique.isMe){
+                    insertUserMessage("Me",insertBotMessage("Chatbot",historique.message,"",0,"");)
+                }else{
+                    insertBotMessage("Chatbot",historique.message,"",0,"");
+                }
+              });
             })
 
             // Send and display the message when the form is sent
@@ -149,11 +161,11 @@
                 var x = document.getElementById("debug_zone");
                 if (x.style.display === "none") {
                     x.style.display = "block";
-                    } 
+                    }
                 else {
                     x.style.display = "none";
                     }
-} 
+}
         </script>
     </body>
 </html>

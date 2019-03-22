@@ -18,6 +18,7 @@ class BotSession {
         this.sessionPath = this.sessionClient.sessionPath(this.projectId, this.sessionId);
         this.languageCode = 'fr-FR';
         this.currentContexts = [];
+        this.messages = [];
     }
 
     /**
@@ -69,8 +70,8 @@ class BotSession {
 
     /**
      * Extract the quick responses from the result of the sendRequest function.
-     * The list of quick responses may be empty if there are none. 
-     * @param {QueryResult} result 
+     * The list of quick responses may be empty if there are none.
+     * @param {QueryResult} result
      * @returns A list of strings (may be empty if there are no quick responses)
      */
     getQuickResponses(result) {
