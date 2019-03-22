@@ -24,13 +24,12 @@
                             <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
                             <input type="submit" id="send_message" value="Envoyer" class="btn btn-primary" />
                             <div id="quick_reponses">
-                                
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-
+        <div style="height:600px;width:720px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
             <div class="row">
                 <div class="col">
                     <section id="chat_zone">
@@ -44,6 +43,7 @@
                 </div>
             </div>
         </div>
+        <button onclick="hideOnClick()">DebugMode</button>
 
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -99,6 +99,16 @@
                 socket.emit('message', message);
                 $('#quick_reponses').html("");
             }
+
+            function hideOnClick() {
+                var x = document.getElementById("debug_zone");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                    } 
+                else {
+                    x.style.display = "none";
+                    }
+} 
         </script>
     </body>
 </html>
