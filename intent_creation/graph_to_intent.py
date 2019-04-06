@@ -32,11 +32,10 @@ def main(graph):
     counter = 0
     inDegree = graph.indeg(n)
     for e in graph.getInEdges(n):
-      inputContext = "" if entryPoints[graph.source(e)] else ("context_"+viewLabel[graph.source(e)])
-      outputContext = "" if leaves[n] else ("context_"+viewLabel[n])
-      suffix = "" if counter == 0 and inDegree == 1 else "_"+letters[counter]
+      inputContext = "" if entryPoints[graph.source(e)] else ("context_"+str(graph.source(e).id))
+      outputContext = "" if leaves[n] else ("context_"+str(n.id))
       intent = {
-        "label":viewLabel[n]+suffix, 
+        "label":viewLabel[n]+"[id"+str(n.id)+"]", 
         "response":response[n], 
         "training_sentences":trainingSentences[e],
         "quick_responses":quickResponses[n], 
