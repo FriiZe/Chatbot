@@ -12,6 +12,7 @@ def main(graph):
   leaves = graph.getBooleanProperty("isLeaf")
   letters = "abcdefghijklmnopqrstuvxyz"
   intents = []
+  labels = []
 
   # mark the entry points and leaves
   for n in graph.getNodes():
@@ -32,10 +33,13 @@ def main(graph):
     counter = 0
     inDegree = graph.indeg(n)
     for e in graph.getInEdges(n):
-      inputContext = "" if entryPoints[graph.source(e)] else ("context_"+str(graph.source(e).id))
-      outputContext = "" if leaves[n] else ("context_"+str(n.id))
+      label = graph.getName()+"_"+viewLabel[n]
+      if label in labels: label+=("_"+letters[counter]) 
+      labels.append(label)
+      inputContext = "" if entryPoints[graph.source(e)] else ("context_"+graph.getName()+"_"+viewLabel[graph.source(e)])
+      outputContext = "" if leaves[n] else ("context_"+graph.getName()+"_"+viewLabel[n])
       intent = {
-        "label":viewLabel[n]+"[id"+str(n.id)+"]", 
+        "label":label[:100] if len(label) >= 100 else label, 
         "response":response[n], 
         "training_sentences":trainingSentences[e],
         "quick_responses":quickResponses[n], 
