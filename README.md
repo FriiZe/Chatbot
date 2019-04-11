@@ -3,12 +3,14 @@ Nous hébergeons déjà une version du prototype [ici](http://melvin.even.emi.u-
 ## Lancer le serveur localement
 
 #### Prérequis : 
-1. Se placer dans le dossier racine "Chatbot/"
-2. ```export GOOGLE_APPLICATION_CREDENTIALS="key.json"```
+Télécharger la clé API (fourni via Moodle)
+1. ```export GOOGLE_APPLICATION_CREDENTIALS="chemin_vers_key.json"```
 
 #### Lancer le serveur web localement
 1. ```npm install``` depuis le dossier Chatbot/
 2. ```node app.js``` depuis le dossier Chabot/integration/
+
+La page client prototype est ```Chatbot/integration/index.html```
 
 #### Création/modification d'intention
 Dans un arbre décisionnel, une intention une paire (arête entrante, noeud) où l'arête entrante contient la liste de phrases d'exemples menant à la réponse stocké dans le noeud.
