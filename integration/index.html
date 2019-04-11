@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
         <title>Chatbot prototype</title>
         <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+		crossorigin="anonymous">
+		<link rel="stylesheet" href="./style.css">	  
     </head>
 
     <body>
@@ -97,6 +98,27 @@
 			</div>	
 			
 			<button onclick="hideOnClick()" class="btn btn-danger" style="margin-top: 10px">Debug</button>
+			<button onclick="hideMinOnClick()" class="btn btn-danger" style="margin-top: 10px">Hide min</button>
+
+			<!-- Minimal interface -->
+			<div id="chatbox" class="chatbox">
+				<div class="messagebar">
+					<form action="/" method="post" id="chat_form_min">
+						<input name="message" id="message_min" placeholder="Votre message..." type="text"><input id="send_message"
+							value="GO" class="btn btn-primary" type="submit">
+					</form>
+				</div>
+				<div class="header-chatbox">
+					Assistant Moodle
+				</div>
+				<div id="response_box_min" class="response_box" style="overflow-x:hidden; overflow-y:auto; flex-direction:column-reverse;">
+			
+				</div>
+			
+				<div id="quick_responses_min" class="bouton">
+			
+				</div>
+			</div>
 		</div>
 
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -129,12 +151,23 @@
                 send(message);
                 $('#message').val('').focus();
                 return false;
+			});
+			
+			// Send and display the message when the form is sent (from the minimal interface)
+			$('#chat_form_min').submit(function () {
+                var message = $('#message_min').val();
+                if (message == "") return false;
+                send(message);
+                $('#message_min').val('').focus();
+                return false;
             });
 
             // Insert the response of the bot and the quick responses + some debug info
             function insertBotMessage(nickname, message, intention, score, quick_reponses) {
-                // insert bot response
-                $('#chat_zone').append('<div class="card bg-muted"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>');
+				// insert bot response
+				let bot_message = '<div class="card bg-muted"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>';
+				$('#chat_zone').append(bot_message);
+                $('#response_box_min').append(bot_message);				
                 // insert debug info
                 let color;
                 if (score * 100 > 70)
@@ -144,30 +177,44 @@
                 else
                     color = "danger";
                 $('#debug_zone').append('<div class="card text-white bg-'+color+'"><div class="card-text"><span class="font-weight-bold">Intention :</span> '+intention+'<br /><span class="font-weight-bold">Indice de confiance :</span> '+score+'</div></div>');
-
                 // insert quick responses
-                $('#quick_reponses').html("");
+				$('#quick_reponses').html("");
+                $('#quick_responses_min').html("");				
                 for(let i in quick_reponses) {
-                    var qr = quick_reponses[i];
-                    $('#quick_reponses').append('<button class="btn btn-dark" style="margin:10px" onClick="send(this.value)" value="' + qr + '">' + qr + '</button>');
+					let qr = quick_reponses[i];
+					$('#quick_reponses').append('<button class="btn btn-dark" style="margin:10px" onClick="send(this.value)" value="' + qr + '">' + qr + '</button>');
+                    $('#quick_responses_min').append('<button class="btn btn-dark" style="margin:10px" onClick="send(this.value)" value="' + qr + '">' + qr + '</button>');					
                 }
             }
 
             // Insert the message sent by the user
             function insertUserMessage(nickname, message){
-                $('#chat_zone').append('<div class="card bg-dark text-light"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>')
+				let user_mesage = '<div class="card bg-dark text-light"><div class="card-header"><span class="badge badge-secondary">' + nickname + '</span> ' + message + '</div></div>';
+				$('#chat_zone').append(user_mesage);
+                $('#response_box_min').append(user_mesage);							
             }
 
             // Send a user message to the server and display it
             function send(message){
                 insertUserMessage("You", message);
                 socket.emit('message', message);
-                $('#quick_reponses').html("");
+				$('#quick_reponses').html("");
+                $('#quick_responses_min').html("");
             }
 
 			// Hide the debug menu
             function hideOnClick() {
                 var x = document.getElementById("debug_zone");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+				} else {
+                    x.style.display = "none";
+				}
+			}
+
+			// Hide the minimal interface
+			function hideMinOnClick() {
+                var x = document.getElementById("chatbox");
                 if (x.style.display === "none") {
                     x.style.display = "block";
 				} else {

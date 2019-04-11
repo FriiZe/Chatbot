@@ -16,12 +16,16 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/style.css', function (req, res) {
+    res.sendFile(__dirname + '/style.css');
+});
+
 /*Initialise user event on user connexion */
 io.sockets.on('connection', function(socket) {
     if(clientList[socket.id] == undefined) {  // first connection
         clientList[socket.id] = new BotSession();
     } else { // connection already exists
-        socket.emit('historique',clientList[socket.id].messages);
+        socket.emit('historique', clientList[socket.id].messages);
     }
 
     let botSession = clientList[socket.id];

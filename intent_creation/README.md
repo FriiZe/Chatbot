@@ -1,9 +1,6 @@
-## Creating the decision tree with Tulip
-Required properties :
-* response [String] (node property)
-* quickResponses [StringVector] (node property)
-* trainingSentences [StringVector] (edge property)
+## Créer un arbre décisionnel avec Tulip
+Voir ```../README.md``` section Ajout/Modification d'intentions.
 
-## Running the scripts
-1. Run ```graph_to_intent.py``` via Tulip 
-2. Run ```create_intent.js [files.json ...]``` with the JSON outputted by the python script as argument. 
+## Lancer les scripts
+1. Lancer ```graph_to_intent.py``` via Tulip sur le graphe à transformer liste d'intentions 
+2. Lancer ```create_intent.js [files.json ...]``` avec comme argument le fichier JSON produit par le script python.
