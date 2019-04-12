@@ -1,5 +1,6 @@
 from tulip import tlp
 import json
+import subprocess
 
 def main(graph): 
   trainingSentences = graph.getStringVectorProperty("trainingSentences")
@@ -54,4 +55,8 @@ def main(graph):
   # convert and write the intents list to json format
   with open(graph.getName()+".json", 'w') as outfile:  
     json.dump(intents, outfile)
-  
+
+  # send the intents to the bot
+  print("Sending intent to DialogFlow...")
+  subprocess.run("node create_intents.js "+graph.getName()+".json", shell=True)
+  print("Done!")
